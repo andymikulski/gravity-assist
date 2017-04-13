@@ -37,7 +37,7 @@ public class Checkpoint : MonoBehaviour {
 		if (other.tag == "Player") {
 			PlayerShip player = other.GetComponent<PlayerShip> ();
 
-			if (player.enabled) {
+			if (player != null && player.enabled) {
 				hasPlayerCollision = true;
 			}
 		}

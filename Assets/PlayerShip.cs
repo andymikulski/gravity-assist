@@ -16,6 +16,8 @@ public class PlayerShip : MonoBehaviour {
 	public AudioClip[] blastSounds;
 	private AudioSource engineAudio;
 
+	private CurrentScore currentScore;
+
 	public GameObject respawnPlatform;
 
 	public void RefreshReferences()
@@ -41,6 +43,8 @@ public class PlayerShip : MonoBehaviour {
 		engineBlast = gameObject.transform.Find ("Dope Fire Trail").GetComponent<ParticleSystem>();
 		engineAudio = GetComponent<AudioSource>();
 
+
+		currentScore = GameObject.Find ("GameManager").GetComponent<CurrentScore> ();
 	}
 
 	public void Start()
@@ -63,6 +67,9 @@ public class PlayerShip : MonoBehaviour {
 
 		newPlayer.name = "Player";
 		newPlayer.RefreshReferences ();
+
+		currentScore.Reset ();
+
 		// disable this script
 		this.enabled = false;
 		Destroy (this);
@@ -102,7 +109,7 @@ public class PlayerShip : MonoBehaviour {
 			Vector3 allowedDestination = Vector3.ClampMagnitude (_currentPosition - transform.position, 15f);
 
 			_currentPosition = GetCurrentMousePosition ();
-			_lineRenderer.numPositions = 2;
+			_lineRenderer.positionCount = 2;
 			_lineRenderer.SetPosition (0, transform.position);
 			_lineRenderer.SetPosition (1, transform.position + allowedDestination);
 			_lineRenderer.enabled = true;
@@ -130,6 +137,7 @@ public class PlayerShip : MonoBehaviour {
 			gameObject.transform.rotation = Quaternion.LookRotation (releasePosition);
 			gameObject.GetComponent<Rigidbody> ().AddForce (impulse);
 
+			currentScore.AddBlast ();
 			BlastEngines ();
 			ShakeCamera (impulse.magnitude / 2000);
 		} else {
