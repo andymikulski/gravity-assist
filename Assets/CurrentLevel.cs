@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CurrentLevel : MonoBehaviour {
 	public int stage = 0;
@@ -13,6 +14,27 @@ public class CurrentLevel : MonoBehaviour {
 	private LevelData levelData;
 
 	void Start () {
+		Refresh ();
+	}
+
+	void OnEnable()
+	{
+		//Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
+		SceneManager.sceneLoaded += Refresh;
+	}
+
+	void OnDisable()
+	{
+		//Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
+		SceneManager.sceneLoaded -= Refresh;
+	}
+
+	void Refresh(Scene scene, LoadSceneMode mode) {
+		Refresh ();
+	}
+
+	void Refresh(){
+		enabled = false;
 		flavorText = GameObject.Find ("FlavorText").GetComponent<CanvasGroup> ();
 		Invoke ("Enable", 2f);
 	}
@@ -21,6 +43,8 @@ public class CurrentLevel : MonoBehaviour {
 	{
 		enabled = true;
 		SetStage (1);
+		GetComponent<CurrentScore> ().Reset ();
+		GetComponent<LevelScore> ().Reset ();
 	}
 
 	public void Disable()

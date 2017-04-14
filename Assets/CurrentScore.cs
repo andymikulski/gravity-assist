@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CurrentScore : MonoBehaviour {
 	public Text blastText;
@@ -17,6 +18,9 @@ public class CurrentScore : MonoBehaviour {
 	}
 
 	public void Reset() {
+		blastText = GameObject.Find ("BlastText").GetComponent<Text> ();
+		parText = GameObject.Find ("ParText").GetComponent<Text> ();
+
 		score = 0;
 		par = lastPar;
 		UpdateDisplay ();

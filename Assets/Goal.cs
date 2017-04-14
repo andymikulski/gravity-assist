@@ -29,7 +29,6 @@ public class Goal : MonoBehaviour {
 				// this is read from the score screen that we're about to load, so it
 				// knows where to go after the player reviews their grade etc
 				currentLevel.levelName = NextScene;
-				GameObject.Find ("NextLevelButton").GetComponent<NextSceneButton> ().SceneToLoad = NextScene;
 			}
 		}
 	}

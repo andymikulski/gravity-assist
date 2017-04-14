@@ -22,4 +22,9 @@ public class LevelScore : MonoBehaviour {
 	public float GetTotalScore() {
 		return totalScore / totalPar;
 	}
+
+	public void Reset() {
+		totalPar = 0;
+		totalScore = 0;
+	}
 }
