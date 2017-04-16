@@ -28,13 +28,6 @@ public class PlayerShip : MonoBehaviour {
 		}
 
 		_lineRenderer = GetComponent<LineRenderer> ();
-
-		if (_lineRenderer == null){
-			_lineRenderer = gameObject.AddComponent<LineRenderer> ();
-		}
-
-		_lineRenderer.startWidth = 1f;
-		_lineRenderer.endWidth = 1f;
 		_lineRenderer.enabled = false;
 
 		trackPlayer = Camera.main.GetComponent<TrackPlayer> ();

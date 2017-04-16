@@ -13,9 +13,9 @@ public class CelestialBody : MonoBehaviour {
 	public float strengthMultiplier = 1f;
 
 	private Rigidbody rb;
-	public GameObject explosion;
+	private GameObject explosion;
 	private Object explosionInstance;
-	public GameObject impactSound;
+	private GameObject impactSound;
 	private Object soundInstance;
 
 	void Start ()
