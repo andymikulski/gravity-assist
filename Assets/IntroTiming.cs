@@ -12,6 +12,7 @@ public class IntroTiming : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		sound = GameObject.Find ("Theme Music").GetComponent<AudioSource> ();
 		byline = GameObject.Find("Byline").GetComponent<CanvasGroup>();
 		creditline = GameObject.Find("Creditline").GetComponent<CanvasGroup>();
 
@@ -21,6 +22,9 @@ public class IntroTiming : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (!sound.isPlaying) {
+			return;
+		}
 		float introLength = musicScript.IntroEndSample * 0.90f;
 		byline.alpha = Mathf.Lerp (byline.alpha, sound.timeSamples < introLength / 2 ? 1f : 0f, speed);
 		creditline.alpha = Mathf.Lerp (creditline.alpha, (sound.timeSamples > introLength / 2) && sound.timeSamples <= introLength ? 1f : 0f, speed);

@@ -13,9 +13,13 @@ public class CelestialBody : MonoBehaviour {
 	public float strengthMultiplier = 1f;
 
 	private Rigidbody rb;
+	public GameObject explosion;
+	public GameObject impactSound;
 
 	void Start ()
 	{
+		explosion = Resources.Load ("ShipExplosion") as GameObject;
+		impactSound = Resources.Load ("ShipExplosionSound") as GameObject;
 		rb = GetComponent<Rigidbody> ();
 		UpdateVariables ();
 	}
@@ -45,6 +49,29 @@ public class CelestialBody : MonoBehaviour {
 
 			if (rigidbody != null && rigidbody != gameObject.GetComponent<Rigidbody> ()) {
 				rigidbody.AddExplosionForce ((m_Force * Mathf.Sqrt(Vector3.Distance(m_Position, transform.position))) * -1, transform.position + m_Position, m_Radius);
+			}
+		}
+	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+		if (!gameObject.CompareTag("Dock") && collision.collider.CompareTag ("Player")) {
+			PlayerShip otherShip = collision.collider.GetComponent<PlayerShip> ();
+
+			if (collision.relativeVelocity.magnitude <= 0) {
+				return;
+			}
+
+			if (otherShip != null && otherShip.enabled && otherShip.gameObject.active) {
+				otherShip.Respawn ();
+			}
+
+			if (collision.relativeVelocity.magnitude > 20) {
+				Vector3 pos = collision.collider.gameObject.transform.position;
+				collision.collider.gameObject.SetActive (false);
+				Destroy (collision.collider);
+				Instantiate (explosion, pos, new Quaternion());
+				Instantiate (impactSound);
 			}
 		}
 	}

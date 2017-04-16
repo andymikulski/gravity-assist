@@ -19,6 +19,7 @@ public class PlayerShip : MonoBehaviour {
 	private CurrentScore currentScore;
 
 	public GameObject respawnPlatform;
+	public bool enabled = true;
 
 	public void RefreshReferences()
 	{
@@ -71,7 +72,9 @@ public class PlayerShip : MonoBehaviour {
 		currentScore.Reset ();
 
 		// disable this script
+		enabled = false;
 		this.enabled = false;
+//		this.gameObject.SetActive (false);
 		Destroy (this);
 	}
 
