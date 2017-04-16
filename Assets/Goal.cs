@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour {
 	public string NextScene;
+	public bool SkipScoreScreen = false;
 
 	void OnCollisionEnter(Collision collision)
 	{
@@ -23,12 +24,13 @@ public class Goal : MonoBehaviour {
 
 				// save the total score from this stage
 				totalScore.AddScore (score.GetScore());
-				SceneManager.LoadScene("ScoreScreen", LoadSceneMode.Single);
 
 				// set the 'current level name' to whatever the props says is next
 				// this is read from the score screen that we're about to load, so it
 				// knows where to go after the player reviews their grade etc
 				currentLevel.levelName = NextScene;
+
+				SceneManager.LoadScene(SkipScoreScreen ? NextScene : "ScoreScreen", LoadSceneMode.Single);
 			}
 		}
 	}

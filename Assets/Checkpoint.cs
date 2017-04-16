@@ -10,9 +10,14 @@ public class Checkpoint : MonoBehaviour {
 	public bool isFlipped = false;
 	public float speed = 2f;
 	private Quaternion startRotation;
+	private CurrentLevel level;
+
+//	public AudioClip[] clips;
 
 	// Use this for initialization
 	void Start () {
+		level = GameObject.Find ("GameManager").GetComponent<CurrentLevel> ();
+
 		startRotation = transform.rotation;
 
 		gravity = GetComponent<CelestialBody> ();
@@ -24,35 +29,38 @@ public class Checkpoint : MonoBehaviour {
 
 	void Update()
 	{
+		if (level.stage >= nextStage) {
+			isFlipped = true;
+		}
 		Quaternion rot = Quaternion.Euler (new Vector3 (0f, isFlipped ? 180f : 0f, 0f)) * startRotation;
 		transform.rotation = Quaternion.Lerp (transform.rotation, rot, speed * Time.deltaTime);
 	}
 
 	void OnCollisionEnter(Collision collision)
 	{
+		if (isFlipped) {
+			return;
+		}
+
 		bool hasPlayerCollision = false;
 
 		Collider other = collision.collider;
 
-		if (other.tag == "Player") {
+		if (other.CompareTag("Player")) {
 			PlayerShip player = other.GetComponent<PlayerShip> ();
 
 			if (player != null && player.enabled) {
 				hasPlayerCollision = true;
+				StartCoroutine (SetNextPoint (other, 1f));
+//
+//				foreach (AudioClip clip in clips) {
+//					AudioSource sound = gameObject.AddComponent<AudioSource> ();
+//					sound.volume = 0.5f;
+//					sound.PlayOneShot (clip);
+//				}
 			}
 		}
-
-		isFlipped = hasPlayerCollision;
 	}
-
-	void OnTriggerEnter(Collider other) {
-		if (other.tag != "Player") {
-			return;
-		}
-			
-		StartCoroutine (SetNextPoint (other, 1f));
-	}
-
 
 	IEnumerator SetNextPoint(Collider other, float delayTime)
 	{
@@ -63,7 +71,7 @@ public class Checkpoint : MonoBehaviour {
 		if (player != null) {
 			player.SetCheckpoint (gameObject);
 
-			GameObject.Find ("GameManager").GetComponent<CurrentLevel> ().SetStage (nextStage);
+			level.SetStage (nextStage);
 		}
 	}
 }

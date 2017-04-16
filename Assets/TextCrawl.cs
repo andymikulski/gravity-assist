@@ -8,9 +8,10 @@ public class TextCrawl : MonoBehaviour {
 	public float speed = 1f;
 	private float offset;
 	private bool enabled = false;
+	public float startTime = 2.8f;
 
 	void Start(){
-		Invoke ("Enable", 3f);
+		Invoke ("Enable", startTime);
 	}
 
 	void Enable(){

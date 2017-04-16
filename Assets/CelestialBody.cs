@@ -14,7 +14,9 @@ public class CelestialBody : MonoBehaviour {
 
 	private Rigidbody rb;
 	public GameObject explosion;
+	private Object explosionInstance;
 	public GameObject impactSound;
+	private Object soundInstance;
 
 	void Start ()
 	{
@@ -58,7 +60,7 @@ public class CelestialBody : MonoBehaviour {
 		if (!gameObject.CompareTag("Dock") && collision.collider.CompareTag ("Player")) {
 			PlayerShip otherShip = collision.collider.GetComponent<PlayerShip> ();
 
-			if (collision.relativeVelocity.magnitude <= 0) {
+			if (collision.relativeVelocity.magnitude <= 0f) {
 				return;
 			}
 
@@ -66,12 +68,25 @@ public class CelestialBody : MonoBehaviour {
 				otherShip.Respawn ();
 			}
 
-			if (collision.relativeVelocity.magnitude > 20) {
+			if (collision.relativeVelocity.magnitude > 10f) {
 				Vector3 pos = collision.collider.gameObject.transform.position;
 				collision.collider.gameObject.SetActive (false);
-				Destroy (collision.collider);
-				Instantiate (explosion, pos, new Quaternion());
-				Instantiate (impactSound);
+				Destroy (collision.collider.gameObject);
+
+				if(explosionInstance != null) {
+					Destroy (explosionInstance);
+				}
+
+				if(soundInstance != null) {
+					Destroy(soundInstance);
+				}
+
+				explosionInstance = Instantiate (explosion, pos, new Quaternion());
+				soundInstance = Instantiate (impactSound);
+
+
+				ShakeObject cameraShake = GameObject.Find("CameraManager").GetComponent<ShakeObject> ();
+				cameraShake.ShakeCamera (collision.relativeVelocity.magnitude / 300f, 0.02f); 
 			}
 		}
 	}
