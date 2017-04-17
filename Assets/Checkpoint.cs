@@ -66,6 +66,7 @@ public class Checkpoint : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(delayTime);
 
+		gravity = GetComponent<CelestialBody> ();
 		gravity.m_Force = 20f;
 		PlayerShip player = other.GetComponent<PlayerShip> ();
 		if (player != null) {

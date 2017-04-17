@@ -21,6 +21,10 @@ public class PlayerShip : MonoBehaviour {
 	public GameObject respawnPlatform;
 	public bool enabled = true;
 
+	public float spawnOffsetX = 0f;
+	public float spawnOffsetY = 0f;
+	public float spawnOffsetZ = 0f;
+
 	public void RefreshReferences()
 	{
 		if (respawnPlatform == null) {
@@ -52,7 +56,7 @@ public class PlayerShip : MonoBehaviour {
 
 		Quaternion startRotation = Quaternion.Euler (new Vector3 (0f, 0f, 0f));
 
-		Vector3 startPos = respawnPlatform.transform.position + new Vector3 (1f, 0f, 0f);
+		Vector3 startPos = respawnPlatform.transform.position + new Vector3 (spawnOffsetX, spawnOffsetY, spawnOffsetZ);
 
 		PlayerShip newPlayer = Instantiate (this, startPos, startRotation);
 		Rigidbody rb = newPlayer.GetComponent<Rigidbody> ();
@@ -92,10 +96,10 @@ public class PlayerShip : MonoBehaviour {
 			}
 
 			Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
-//			bool onScreen = screenPoint.z > -0.2 && screenPoint.x > -0.2 && screenPoint.x < 1.2 && screenPoint.y > 0 && screenPoint.y < 1.2;
-//			if (!onScreen) {
-//				Respawn ();
-//			}
+			bool onScreen = screenPoint.z > -0.1 && screenPoint.x > -0.1 && screenPoint.x < 1.1 && screenPoint.y > 0 && screenPoint.y < 1.1;
+			if (!onScreen) {
+				Respawn ();
+			}
 		}
 		if (Input.GetKeyDown (KeyCode.R)) {
 			Respawn ();
