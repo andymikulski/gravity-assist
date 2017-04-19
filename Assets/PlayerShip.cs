@@ -27,6 +27,9 @@ public class PlayerShip : MonoBehaviour {
 
 	public void RefreshReferences()
 	{
+		Time.timeScale = 1f;
+		Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
 		if (respawnPlatform == null) {
 			respawnPlatform = GameObject.Find ("Starting Point");
 		}

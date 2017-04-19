@@ -35,6 +35,7 @@ public class CurrentLevel : MonoBehaviour {
 
 	void Refresh(){
 		enabled = false;
+		SetStage (0);
 		flavorText = GameObject.Find ("FlavorText").GetComponent<CanvasGroup> ();
 		Invoke ("Enable", 2f);
 	}
@@ -77,6 +78,10 @@ public class CurrentLevel : MonoBehaviour {
 		string levelName = "Level " + stage + " Cam";
 		Debug.Log ("loading level " + levelName);
 		GameObject level = GameObject.Find (levelName);
+
+		if (level == null) {
+			return;
+		}
 
 		levelCam = level.GetComponent<Camera> ();
 		levelData = levelCam.GetComponent<LevelData> ();

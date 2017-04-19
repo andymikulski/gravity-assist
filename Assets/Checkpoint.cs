@@ -17,7 +17,7 @@ public class Checkpoint : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		level = GameObject.Find ("GameManager").GetComponent<CurrentLevel> ();
-
+		isFlipped = false;
 		startRotation = transform.rotation;
 
 		gravity = GetComponent<CelestialBody> ();
