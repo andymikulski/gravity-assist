@@ -34,8 +34,8 @@ public class CelestialBody : MonoBehaviour {
 			m_Mass = m_Force;
 
 			rb.mass = m_Mass;
-			rb.drag = Mathf.Infinity;
-			rb.angularDrag = Mathf.Infinity;
+			rb.drag = 0f; //Mathf.Infinity;
+			rb.angularDrag = 0f; //Mathf.Infinity;
 			m_Force = m_Force * strengthMultiplier;
 		}
 	}
@@ -86,7 +86,8 @@ public class CelestialBody : MonoBehaviour {
 
 
 				ShakeObject cameraShake = GameObject.Find("CameraManager").GetComponent<ShakeObject> ();
-				cameraShake.ShakeCamera (collision.relativeVelocity.magnitude / 300f, 0.02f); 
+				if (cameraShake != null)
+					cameraShake.ShakeCamera (collision.relativeVelocity.magnitude / 300f, 0.02f); 
 			}
 		}
 	}

@@ -10,8 +10,7 @@ public class DontDestroyOnLoad : MonoBehaviour {
 			return;
 		}
 
-		Debug.Log ("asdf" + GameObject.FindGameObjectsWithTag ("GameManager").Length);
-		if (GameObject.FindGameObjectsWithTag ("GameManager").Length <= 1) {
+		if (GameObject.FindGameObjectsWithTag (gameObject.tag).Length <= 1) {
 			DontDestroyOnLoad (gameObject);
 		} else {
 			Destroy (gameObject);

@@ -86,6 +86,8 @@ public class PlayerShip : MonoBehaviour {
 
 	public void Update()
 	{
+		Cursor.lockState = CursorLockMode.Confined;
+
 		if (Camera.main != null)
 		{
 			hasFollowButton = Input.GetButton ("Jump"); 
@@ -162,7 +164,7 @@ public class PlayerShip : MonoBehaviour {
 
 	public void ShakeCamera(float amount)
 	{
-		ShakeObject cameraShake = GameObject.Find ("CameraManager").GetComponent<ShakeObject> ();
+		ShakeObject cameraShake = Camera.main.GetComponent<ShakeObject> ();
 		cameraShake.smooth = false;
 		cameraShake.smoothAmount = 5f;
 
